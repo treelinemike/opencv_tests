@@ -2,14 +2,21 @@
 
 #include <opencv2/opencv.hpp>
 #include <iostream>
+#include <string>
 
 using namespace cv;
 using namespace std;
 
 int main(int argc, char** argv)
 {
+	// variables
+	unsigned int i;
+	char mystr[255];
+
+
 	// Read the image file
-	Mat image = imread("G:\\My Drive\\surgnav\\20211011-phantom-test\\L_002\\L00000003.tif");
+	Mat image_raw = imread("G:\\My Drive\\surgnav\\20211011-phantom-test\\L_002\\L00000003.tif");
+	Mat image = image_raw;
 
 	// Check for failure
 	if (image.empty())
@@ -19,16 +26,28 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	// Try adding some text
-	putText(image, "Hello, world!", Point(100, 100), FONT_HERSHEY_SIMPLEX, 5.0, CV_RGB(125, 125, 125), 3);
+
+	for (i = 0; i < 10; i++)
+	{
+	sprintf_s(mystr, "Frame #%03d", i);
+
+		// Try adding some text
+		image = image_raw;
+		putText(image, (string) mystr, Point(100, 100), FONT_HERSHEY_SIMPLEX, 5.0, CV_RGB(125, 125, 125), 3);
+
+		// Show our image inside a window.
+		imshow("Mike's OpenCV Test Image Preview", image);
+
+		// Wait for any keystroke in the window																								
+		waitKey(100);
+
+	}
 
 	// write file
 	imwrite("G:\\My Drive\\surgnav\\20211011-phantom-test\\L_002\\L00000003_appended.tif", image);
 
-	// Show our image inside a window.
-	imshow("Mike's OpenCV Test Image Preview", image);
 
-	// Wait for any keystroke in the window																								
-	waitKey(0);
+	// done
+	waitKey();
 	return 0;
 }
