@@ -13,10 +13,10 @@ int main(int argc, char** argv)
 	unsigned int i;
 	char mystr[255];
 
-
 	// Read the image file
 	Mat image_raw = imread("G:\\My Drive\\surgnav\\20211011-phantom-test\\L_002\\L00000003.tif");
-	Mat image = image_raw;
+	Mat image;
+	image_raw.copyTo(image);
 
 	// Check for failure
 	if (image.empty())
@@ -26,28 +26,28 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
+	// create a window for displaying image(s)
+	namedWindow("My Window", WINDOW_AUTOSIZE);
 
+	// display a series of images
 	for (i = 0; i < 10; i++)
 	{
-	sprintf_s(mystr, "Frame #%03d", i);
-
 		// Try adding some text
-		image = image_raw;
-		putText(image, (string) mystr, Point(100, 100), FONT_HERSHEY_SIMPLEX, 5.0, CV_RGB(125, 125, 125), 3);
+		image_raw.copyTo(image);
+		sprintf_s(mystr, "Frame #%03d", i);
+		putText(image, (string)mystr, Point(50, image.rows/2), FONT_HERSHEY_SIMPLEX, 5.0, CV_RGB(255, 255, 0),10);
 
-		// Show our image inside a window.
-		imshow("Mike's OpenCV Test Image Preview", image);
+		// show image
+		imshow("My Window", image);
 
 		// Wait for any keystroke in the window																								
 		waitKey(100);
-
 	}
 
 	// write file
 	imwrite("G:\\My Drive\\surgnav\\20211011-phantom-test\\L_002\\L00000003_appended.tif", image);
 
-
-	// done
+	// done, but wait for keypress
 	waitKey();
 	return 0;
 }
