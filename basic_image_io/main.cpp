@@ -12,11 +12,15 @@ int main(int argc, char** argv)
 	// variables
 	unsigned int i;
 	char mystr[255];
-
+	VideoWriter myVideoWriter;
+	
 	// Read the image file
 	Mat image_raw = imread("G:\\My Drive\\surgnav\\20211011-phantom-test\\L_002\\L00000003.tif");
 	Mat image;
 	image_raw.copyTo(image);
+
+	// initialize VideoWriter
+	myVideoWriter = VideoWriter("C:\\Users\\f002r5k\\Desktop\\test.mp4", VideoWriter::fourcc('M', 'J', 'P', 'G'), 4, cv::Size(image.cols,image.rows), true);
 
 	// Check for failure
 	if (image.empty())
@@ -40,12 +44,18 @@ int main(int argc, char** argv)
 		// show image
 		imshow("My Window", image);
 
+		// write image into video
+		myVideoWriter << image;
+
 		// Wait for any keystroke in the window																								
 		waitKey(100);
 	}
 
-	// write file
+	// write image file
 	imwrite("G:\\My Drive\\surgnav\\20211011-phantom-test\\L_002\\L00000003_appended.tif", image);
+
+	// write video file
+	myVideoWriter.release();
 
 	// done, but wait for keypress
 	waitKey();
