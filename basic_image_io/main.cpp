@@ -1,10 +1,15 @@
 // OpenCV test from: https://www.geeksforgeeks.org/opencv-c-windows-setup-using-visual-studio-2019/
 
+#include "platform.h"
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <string>
 #include <windows.h>
 #include <sysinfoapi.h>
+#include "Bgra8VideoFrame.h"
+#include "Uyvy10VideoFrame.h"
+#include "StereoVideoFrame.h"
+
 using namespace cv;
 using namespace std;
 
@@ -57,7 +62,7 @@ int main(int argc, char** argv)
 	start_ms = GetTickCount64();
 
 	// display a series of images
-	N_frames = 400;  // 35963;
+	N_frames = 1;  // 35963;
 	for (i = 0; i < N_frames; i++)
 	{
 		// try adding some text
@@ -93,5 +98,27 @@ int main(int argc, char** argv)
 
 	// done, but wait for keypress
 	waitKey();
+
+	// now try to build the DeckLink frame
+	void* p_bmdFrameData = nullptr;
+	Bgra8VideoFrame* bmdFrameBGRA8 = nullptr;
+	bmdFrameBGRA8 = new Bgra8VideoFrame(image.cols, image.rows, bmdFrameFlagDefault);
+	bmdFrameBGRA8->GetBytes(&p_bmdFrameData);
+	cv::Mat cvFrameBGRA8(image.cols, image.rows, CV_8UC4);
+	cv::cvtColor(image, cvFrameBGRA8, cv::COLOR_BGR2BGRA);
+	memcpy(p_bmdFrameData, cvFrameBGRA8.data, 4 * image.cols * image.rows);
+
+	// convert back to yuv10 
+	Uyvy10VideoFrame* yuv10FrameL = nullptr;
+	yuv10FrameL = new Uyvy10VideoFrame(image.cols, image.rows, bmdFrameFlagDefault);
+	IDeckLinkVideoConversion* frameConverter = nullptr;
+	if (GetDeckLinkVideoConversion(&frameConverter) != 0) {
+		printf("Frame converter initialization failed...\n");
+	}
+	frameConverter->ConvertFrame(bmdFrameBGRA8, yuv10FrameL);
+
+
+
+
 	return 0;
 }

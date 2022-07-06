@@ -145,7 +145,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bgra8VideoFrame.cpp" />
+    <ClCompile Include="DeckLinkAPI_i.c" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="platform.cpp" />
+    <ClCompile Include="StereoVideoFrame.cpp" />
+    <ClCompile Include="Uyvy10VideoFrame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Bgra8VideoFrame.h" />
+    <ClInclude Include="com_ptr.h" />
+    <ClInclude Include="DeckLinkAPI_h.h" />
+    <ClInclude Include="platform.h" />
+    <ClInclude Include="StereoVideoFrame.h" />
+    <ClInclude Include="Uyvy10VideoFrame.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="..\..\..\..\..\Blackmagic DeckLink SDK 12.2.2\Win\include\DeckLinkAPI.idl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
