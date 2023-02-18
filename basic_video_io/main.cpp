@@ -17,8 +17,8 @@ int main(int argc, char** argv)
 	Mat thisFrame;
 	string inputVideoFile  = "C:\\Users\\f002r5k\\Desktop\\test2.mov";
 	string outputVideoFile = "C:\\Users\\f002r5k\\Desktop\\test2_output.avi";
-	static int outputCodec = VideoWriter::fourcc('I', 'Y', 'U', 'V');     // raw avi, yuv420p pixel format, 664,549 kb/s at 59.94 frames per second: https://stackoverflow.com/questions/46605325/recording-video-in-uyvy-codec-in-opencv
-	//static int outputCodec = VideoWriter::fourcc('v', '2', '1','0'); // TODO: get v210 working...
+	//static int outputCodec = VideoWriter::fourcc('I', 'Y', 'U', 'V');     // raw avi, yuv420p pixel format, 664,549 kb/s at 59.94 frames per second: https://stackoverflow.com/questions/46605325/recording-video-in-uyvy-codec-in-opencv
+	static int outputCodec = VideoWriter::fourcc('v', '2', '1','0'); // TODO: get v210 working...
 
 	// open video to capture
 	VideoCapture myVideoCapture = VideoCapture(inputVideoFile);
